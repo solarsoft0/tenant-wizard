@@ -15,10 +15,6 @@ export interface TRoute {
 //  ================== START ROUTE CONFIGURATION ================== //
 const routes: TRoute[] = [
   {
-    path: '/welcome',
-    component: lazy(() => import('../modules/welcome')),
-  },
-  {
     path: '/',
     component: DefaultLayout,
     excact: true,
@@ -26,6 +22,10 @@ const routes: TRoute[] = [
       {
         path: '/personal',
         component: lazy(() => import('../modules/tenantForm')),
+      },
+      {
+        path: '/welcome',
+        component: lazy(() => import('../modules/welcome')),
       },
     ],
   },

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import DefaultLayout from 'Layouts';
 
 export interface TRoute {
   path: string;
@@ -15,23 +14,20 @@ export interface TRoute {
 //  ================== START ROUTE CONFIGURATION ================== //
 const routes: TRoute[] = [
   {
+    path: '/form',
+    component: lazy(() => import('../modules/tenantForm')),
+  },
+  {
     path: '/',
-    component: DefaultLayout,
-    excact: true,
-    routes: [
-      {
-        path: '/personal',
-        component: lazy(() => import('../modules/tenantForm')),
-      },
-      {
-        path: '/welcome',
-        component: lazy(() => import('../modules/welcome')),
-      },
-    ],
+    component: lazy(() => import('../modules/welcome')),
   },
 ];
 //  ================== END ROUTE CONFIGURATION ==================== //
 
+/**
+ * Render our routes inside a switch
+ * @example <RouteConfigComponent />
+ */
 export default function RouteConfigComponent() {
   return (
     <Switch>
@@ -43,6 +39,10 @@ export default function RouteConfigComponent() {
   );
 }
 
+/**
+ * Used to render subroutes defined in the routes list above
+ * @param {TRoute} route - Subroutes
+ */
 export function RouteWithSubRoutes(route: TRoute) {
   return (
     <Route

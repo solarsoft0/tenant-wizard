@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-
-export const PrimaryButton = styled.button`
+// TODO: Add outlined button feature
+export const BaseButton = styled.button`
   position: relative;
   font-family: ${({ theme }) => theme.fonts[0]};
   cursor: pointer;

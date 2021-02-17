@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useWizard } from './wizardSteps';
-import { ProgressBarWrapper, ProgressBarButton } from './wizard.styled';
+import { ProgressBarWrapper, ProgressBarStep } from './wizard.styled';
 
 export interface IStepperProps {
   steps: string[];
@@ -13,14 +13,9 @@ export const Stepper: React.FC<IStepperProps> = ({ steps }) => {
   return (
     <ProgressBarWrapper>
       {steps.map((step, i) => (
-        <ProgressBarButton
-          type="button"
-          title={step}
-          key={`${i}-step-title`}
-          isActive={activeTab >= i}
-        >
+        <ProgressBarStep title={step} key={`${i}-step-title`} isActive={activeTab >= i}>
           {step}
-        </ProgressBarButton>
+        </ProgressBarStep>
       ))}
     </ProgressBarWrapper>
   );

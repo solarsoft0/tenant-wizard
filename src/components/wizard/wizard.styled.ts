@@ -16,7 +16,7 @@ export const ProgressBarWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const ProgressBarButton = styled.button<{ isActive?: boolean }>`
+export const ProgressBarStep = styled.div<{ isActive?: boolean }>`
   // Define variables used in the block
   --btn-offset-vert: 20px;
   --btn-circle-decor-dimensions: 13px;
@@ -28,10 +28,10 @@ export const ProgressBarButton = styled.button<{ isActive?: boolean }>`
   color: ${({ theme }) => theme.colors.lightGray};
   background-color: transparent;
   text-indent: -9999px;
+  text-align: center;
 
   border: none;
   outline: none !important;
-  cursor: pointer;
 
   ${transformationMix({ _duration: '0.15s' })}
 
@@ -100,12 +100,7 @@ export const ProgressBarButton = styled.button<{ isActive?: boolean }>`
 
 /* === START - Wizard Panel (1) === */
 export const FormPanel = styled.div<{ isActive: boolean }>`
-  width: 80%;
-  height: 0;
-
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(0.9);
+  min-height: 335px;
 
   padding: 1.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
@@ -114,6 +109,9 @@ export const FormPanel = styled.div<{ isActive: boolean }>`
   visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
   animation: ${({ isActive }) => (isActive ? FadeIn : FadeOut)} 0.5s linear;
   transition: visibility 0.5s linear;
+
+  display: flex;
+  flex-direction: column;
 
   ${({ isActive }) =>
     isActive &&
@@ -128,11 +126,10 @@ export const FormPanel = styled.div<{ isActive: boolean }>`
    `};
 `;
 
-export const ActionButtonWrapper = styled.div<{ isFirst: boolean; isLast: boolean }>`
+export const ActionButtonWrapper = styled.div<{ isFirst: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: ${({ isFirst, isLast }) =>
-    isFirst || isLast ? (isFirst ? 'flex-end' : 'flex-start') : `space-between`};
+  justify-content: ${({ isFirst }) => (isFirst ? 'flex-end' : `space-between`)};
 
   margin-top: 1rem;
 `;

@@ -1,3 +1,4 @@
 export * from './baseButton';
 export * from './baseTypography';
-export * from './baseInput';
+export { Input } from './baseInput';
+export { LoadingPanel } from './loadingPanel';

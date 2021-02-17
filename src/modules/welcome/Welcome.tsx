@@ -8,6 +8,11 @@ import { BaseButton } from 'components/atoms';
 
 /* === Styled Components === */
 const Wrapper = styled.div`
+  @media (max-width: 37.5rem) {
+    width: 90%;
+    margin: auto;
+  }
+
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
+import SuccessPage from 'modules/successPage';
 export interface TRoute {
   path: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,6 +31,23 @@ const routes: TRoute[] = [
 export default function RouteConfigComponent() {
   return (
     <Switch>
+      <Route
+        path="/success/:timestamp"
+        render={(props) => {
+          // TODO: Work on this issue asap
+          // This is a work around for the route protection
+          // get timestamp from route
+          const timestamp = props.match.params && props.match.params.timestamp;
+          // This routing should have happened is the 5 past second for the route to be valide
+          // We will assume that the form might take up to 5s to route
+          const isValid = timestamp > Date.now() - 5 && timestamp < Date.now();
+
+          // If it's valid route to success page
+          if (isValid) return <SuccessPage />;
+          // else redirect to welcome screen
+          return <Redirect to="/welcome" />;
+        }}
+      />
       {routes.map((route, i) => (
         <RouteWithSubRoutes key={i} {...route} />
       ))}

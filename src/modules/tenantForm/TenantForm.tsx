@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react/display-name */
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { MainWrapper } from 'Layouts/DefaultLayout';
 import { TenantContext } from './tenantContext';
@@ -49,6 +50,7 @@ export const tenantReducer = (state: ITenant, action: TenantActions) => {
 };
 
 export const TenantForm: React.FC = () => {
+  const history = useHistory();
   // Tenant Reducer
   const [tenant, setTenant] = React.useReducer(tenantReducer, {});
 
@@ -62,7 +64,8 @@ export const TenantForm: React.FC = () => {
   );
 
   const onFormSubmit = () => {
-    console.log(tenant, '--Final step');
+    // send the timestamp (protected route)
+    history.push(`success/${Date.now()}`);
   };
 
   return (

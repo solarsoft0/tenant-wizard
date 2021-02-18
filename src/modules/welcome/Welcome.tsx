@@ -24,6 +24,10 @@ const TitleSpan = styled.span`
   display: block;
   font-style: inherit;
 `;
+
+const SubHeader = styled(BodyText)`
+  margin-bottom: 2rem;
+`;
 /* === END - Styled Components === */
 
 export const WelcomePage: React.FC = () => {
@@ -39,9 +43,9 @@ export const WelcomePage: React.FC = () => {
         <BaseHOne>
           Unlock the doors of <TitleSpan>your new home</TitleSpan>
         </BaseHOne>
-        <BodyText>
+        <SubHeader>
           Tenant wizard is the simplest, safest, and most secure way to register tenants.
-        </BodyText>
+        </SubHeader>
         <BaseButton onClick={handleOnRegister}>Register Now!</BaseButton>
       </Wrapper>
     </MainWrapper>

@@ -8,11 +8,8 @@ export interface IPanelProps {
 }
 
 export const Panel: React.FC<IPanelProps> = ({ stepIndex, children }) => {
-  const { activeTab, actionButtons } = useWizard();
-  return activeTab === stepIndex ? (
-    <FormPanel isActive>
-      {children}
-      {actionButtons()}
-    </FormPanel>
-  ) : null;
+  const { activeTab } = useWizard();
+
+  // Render if active
+  return activeTab === stepIndex ? <FormPanel isActive>{children}</FormPanel> : null;
 };

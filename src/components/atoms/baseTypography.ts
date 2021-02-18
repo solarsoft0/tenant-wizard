@@ -25,11 +25,11 @@ export const BaseHThree = styled.h3`
 `;
 
 export const BodyText = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.lightGray};
   line-height: 1.625;
   font-weight: 400;
-  margin: 2rem auto;
+  margin: 0.25rem;
   max-width: 560px;
-  text-align: center;
+  text-align: start;
 `;

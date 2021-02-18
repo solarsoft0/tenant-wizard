@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFormValidation } from 'hooks/useFormValidation';
 import { Input } from 'components/atoms';
 import { useWizard } from 'components/wizard/wizardSteps';
 import { ETenantAction, TenantPersonalInfo } from 'modules/tenantForm/tenantTypes';
@@ -14,7 +15,7 @@ type InputDataType = {
 };
 
 // Inputs data mapper
-const inputFormData: { [key: string]: InputDataType } = {
+export const inputFormData: { [key: string]: InputDataType } = {
   fullName: {
     id: 'tenant-full-name',
     label: 'Full name',
@@ -52,48 +53,75 @@ const _initialStateBuilder = (personalInfo: TenantPersonalInfo | undefined): Ten
 };
 
 export const PersonalPanel: React.FC = () => {
+  // fetch from context
   const { tenant, setTenant } = useTenantContext();
-  const { setIsNextEnabled } = useWizard();
+  const { actionButtons } = useWizard();
+  const { validationErrors, validateForm, validateField } = useFormValidation('personal');
 
+  // Define personal form state
   const initialFormState = _initialStateBuilder(tenant.personalInfo);
-  // Personal form state
   const [personalInfo, setPersonalInfo] = React.useReducer(formReducer, initialFormState);
 
-  const onBlur = (key: string) => {
-    console.log('validdate', personalInfo[key]);
+  const isFormReady = () =>
+    Object.keys(validationErrors).every((key) => {
+      return validationErrors[key] === undefined;
+    });
 
-    // If all the inputs are filled
+  const validateAndSubmit = () => {
+    // Validate all entries
+    validateForm(personalInfo);
+
     const isDone = Object.keys(personalInfo).every((key) => personalInfo[key] !== '');
-    if (isDone) {
-      setIsNextEnabled(true);
 
-      // Set personal information in tenant context
-      setTenant({
-        type: ETenantAction.UPDATE_PERSONAL_INFO,
-        payload: {
-          fullName: personalInfo.fullName,
-          email: personalInfo.email,
-          phoneNumber: personalInfo.phoneNumber,
-        },
-      });
-    }
+    // check for errors and missing inputs
+    if (!isDone || !isFormReady()) return false;
+
+    // Set personal information in tenant context
+    setTenant({
+      type: ETenantAction.UPDATE_PERSONAL_INFO,
+      payload: {
+        fullName: personalInfo.fullName,
+        email: personalInfo.email,
+        phoneNumber: personalInfo.phoneNumber,
+      },
+    });
+
+    return true;
+  };
+
+  const onBlur = (key: string) => {
+    // validate single entry
+    validateField(key, personalInfo[key]);
+
+    const isDone = Object.keys(personalInfo).every((key) => personalInfo[key] !== '');
+
+    // submit inputs if none is empty
+    if (isDone) validateAndSubmit();
   };
 
   return (
-    <FormWrapper>
-      <Title> Personal Panel</Title>
-      <div style={{ width: '100%' }}>
-        {Object.keys(personalInfo).map((key, idx) => (
-          <Input
-            key={`${idx}-personal-input`}
-            type={inputFormData[key].type}
-            label={inputFormData[key].label}
-            value={personalInfo[key]}
-            onBlur={() => onBlur(key)}
-            onChange={(value) => setPersonalInfo({ value, key })}
-          />
-        ))}
-      </div>
-    </FormWrapper>
+    <>
+      <FormWrapper>
+        <Title> Personal Panel</Title>
+        <div style={{ width: '100%' }}>
+          {Object.keys(personalInfo).map((key, idx) => {
+            return (
+              <Input
+                key={`${idx}-personal-input`}
+                type={inputFormData[key].type}
+                label={inputFormData[key].label}
+                value={personalInfo[key]}
+                onBlur={() => onBlur(key)}
+                errorMessage={validationErrors && validationErrors[key]}
+                onChange={(value) => setPersonalInfo({ value, key })}
+              />
+            );
+          })}
+        </div>
+      </FormWrapper>
+
+      {/* Render previous/next buttons */}
+      {actionButtons(validateAndSubmit)}
+    </>
   );
 };

@@ -2,6 +2,8 @@ export type TenantPersonalInfo = {
   fullName: string;
   email: string;
   phoneNumber: string;
+  // Index signature
+  [key: string]: string;
 };
 
 export type TenantFinancialInfo = {

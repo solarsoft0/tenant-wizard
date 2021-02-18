@@ -43,8 +43,11 @@ interface InputProps {
   value: string;
   type: string;
   label: string;
+  errorMessage?: string;
   onChange: (value: string) => void;
   onBlur?: () => void;
+  // Index signature
+  [key: string]: unknown;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -52,46 +55,24 @@ export const Input: React.FC<InputProps> = ({
   type,
   label,
   onChange,
+  errorMessage,
   onBlur = () => {},
   ...props
 }) => {
   const [focused, setFocused] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
-
-  const handleOnFocus = () => {
-    setFocused(true);
-  };
 
   const handleOnBlur = () => {
     setFocused(false);
     onBlur();
   };
 
-  const validateValue = (val: string) => {
-    if (type === 'email') {
-      // VERY simple email validation
-      // TODO: Move validation | Maybe passs them as props
-      if (val.indexOf('@') === -1) {
-        setError('email is invalid');
-      } else {
-        setError(null);
-      }
-    }
-  };
-
-  // Handles on Input change
-  const handleOnChange = (val: string) => {
-    validateValue(val);
-    onChange(val);
-  };
-
   const renderLabel = () => {
     if (label) {
-      // if we have an error
-      if (error) {
-        return <label>{error}</label>;
+      // handle the error message
+      if (errorMessage) {
+        return <label>{errorMessage}</label>;
       }
-
+      // no error, return label
       return <label>{label}</label>;
     }
     return null;
@@ -100,14 +81,14 @@ export const Input: React.FC<InputProps> = ({
   const isFocused = focused || String(value);
 
   return (
-    <InputContainer isFocused={Boolean(isFocused)} error={Boolean(error)}>
+    <InputContainer isFocused={Boolean(isFocused)} error={Boolean(errorMessage)}>
       <>
         {renderLabel()}
         <input
           value={value}
           type={type}
-          onChange={(e) => handleOnChange(e.target.value)}
-          onFocus={handleOnFocus}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
           onBlur={handleOnBlur}
           {...props}
         />

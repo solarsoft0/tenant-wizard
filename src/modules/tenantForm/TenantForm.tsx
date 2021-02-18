@@ -61,9 +61,13 @@ export const TenantForm: React.FC = () => {
     [tenant],
   );
 
+  const onFormSubmit = () => {
+    console.log(tenant, '--Final step');
+  };
+
   return (
     <MainWrapper>
-      <WizardSteps totalSteps={stepperData.length - 1}>
+      <WizardSteps totalSteps={stepperData.length - 1} onWizardSubmit={onFormSubmit}>
         {/* Progress Bar Stepper */}
         <WizardSteps.Stepper steps={stepperData.map((step) => step.title)} />
 

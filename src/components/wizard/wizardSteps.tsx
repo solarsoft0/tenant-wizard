@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Panel, IPanelProps } from './panel';
 import { IStepperProps, Stepper } from './stepper';
 import { RegisterForm } from './registerForm';
-import { BaseButton } from '../atoms/baseButton';
+import { BaseButton } from '../atoms';
 import { ActionButtonWrapper } from './wizard.styled';
 
 interface IWizardContext {
@@ -11,12 +11,10 @@ interface IWizardContext {
   isFirst: boolean;
   isLast: boolean;
   totalSteps: number;
-  setIsNextEnabled: (value: boolean) => void;
   setActiveTab: (nextIndex: number) => void;
-  handleOnNext: () => void;
   handleOnPrevious: () => void;
-  handleOnSubmit: () => void;
-  actionButtons: () => JSX.Element;
+  onWizardSubmit: () => void;
+  actionButtons: (validate?: () => boolean) => JSX.Element;
 }
 
 interface IWizardComposition {
@@ -31,44 +29,42 @@ const TabsContext = React.createContext<IWizardContext | undefined>(undefined);
  * This component maintains internal state and provides those
  * pieces of state & functions to its children.
  */
-const WizardSteps: React.FC<{ totalSteps: number }> & IWizardComposition = ({
-  children,
-  totalSteps,
-}) => {
+const WizardSteps: React.FC<{ totalSteps: number; onWizardSubmit: () => void }> &
+  IWizardComposition = ({ children, totalSteps, onWizardSubmit }) => {
+  // Define state for the active tab
   const [activeTab, setActiveTab] = React.useState(0);
-  const [isNextEnabled, setIsNextEnabled] = React.useState(false);
 
   // Handles next panel trigger
   const handleOnNext = () => {
-    if (activeTab < totalSteps && isNextEnabled) {
-      setActiveTab(activeTab + 1);
-      setIsNextEnabled(false);
-    }
+    if (activeTab < totalSteps) setActiveTab(activeTab + 1);
   };
 
   // Handles previous panel trigger
   const handleOnPrevious = () => {
-    // Enable next button
-    setIsNextEnabled(true);
     // If it's not the first tab, move to the previous tab
     if (activeTab > 0) setActiveTab(activeTab - 1);
   };
 
-  // Handles on Submit Form
-  const handleOnSubmit = () => {
-    console.log('Info Submitted');
-    // TODO: Simulate API call
-  };
-
   // Render Next/Previous action buttons
-  const actionButtons = () => (
-    <ActionButtonWrapper isFirst={activeTab === 0}>
-      {activeTab !== 0 && <BaseButton onClick={handleOnPrevious}>Previous</BaseButton>}
-      <BaseButton type={activeTab === totalSteps ? `submit` : `button`} onClick={handleOnNext}>
-        {activeTab === totalSteps ? `Submit` : `Next`}
-      </BaseButton>
-    </ActionButtonWrapper>
-  );
+  const actionButtons = (validate?: () => boolean) => {
+    const onNext = () => {
+      // no validation function, route to next page
+      if (!validate) handleOnNext();
+
+      // run validation function and route if successfull
+      if (validate && validate()) handleOnNext();
+    };
+
+    // Render the stepper action buttons
+    return (
+      <ActionButtonWrapper isFirst={activeTab === 0}>
+        {activeTab !== 0 && <BaseButton onClick={handleOnPrevious}>Previous</BaseButton>}
+        <BaseButton type={activeTab === totalSteps ? `submit` : `button`} onClick={onNext}>
+          {activeTab === totalSteps ? `Submit` : `Next`}
+        </BaseButton>
+      </ActionButtonWrapper>
+    );
+  };
 
   // Memoize the context to prevent unecessary renders.
   const memoizedContextValue = React.useMemo(
@@ -77,14 +73,13 @@ const WizardSteps: React.FC<{ totalSteps: number }> & IWizardComposition = ({
       setActiveTab,
       handleOnNext,
       handleOnPrevious,
-      handleOnSubmit,
+      onWizardSubmit,
       isFirst: activeTab === 0,
       isLast: activeTab === totalSteps,
       totalSteps,
       actionButtons,
-      setIsNextEnabled,
     }),
-    [activeTab, setActiveTab, isNextEnabled, setIsNextEnabled],
+    [activeTab, setActiveTab],
   );
 
   // Provide wizard context

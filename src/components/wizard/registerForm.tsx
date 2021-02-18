@@ -8,13 +8,13 @@ const BaseForm = styled.form`
 `;
 
 export const RegisterForm: React.FC = (props) => {
-  const { handleOnSubmit } = useWizard();
+  const { onWizardSubmit } = useWizard();
 
   // Handle the registration form submit event
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Wizard submit callback
-    handleOnSubmit();
+    onWizardSubmit();
   };
 
   // Render Form

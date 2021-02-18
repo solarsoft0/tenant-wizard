@@ -26,6 +26,7 @@ const TitleSpan = styled.span`
 `;
 
 const SubHeader = styled(BodyText)`
+  text-align: center;
   margin-bottom: 2rem;
 `;
 /* === END - Styled Components === */

@@ -27,6 +27,10 @@ const RedirectLink = styled.a`
   text-decoration: none;
   color: ${({ theme }) => theme.colors.primary};
 `;
+
+const SubHeader = styled(BodyText)`
+  text-align: center;
+`;
 /* === END - Styled Components === */
 
 // Home.ht official listing link
@@ -34,11 +38,12 @@ const REDIRECT_URL = 'https://www.home.ht/homes/listings/map';
 
 export const SuccessPage: React.FC = () => {
   // Redirect the user to home.ht after 3s
-  React.useEffect(() => {
-    setTimeout(() => {
-      window.location.href = REDIRECT_URL;
-    }, 3000);
-  });
+  if (process.env.NODE_ENV !== 'development')
+    React.useEffect(() => {
+      setTimeout(() => {
+        window.location.href = REDIRECT_URL;
+      }, 3000);
+    });
 
   // Render success message
   return (
@@ -47,11 +52,11 @@ export const SuccessPage: React.FC = () => {
         <BaseHOne>
           <TitleSpan>Welcome </TitleSpan>Tenant 🎉
         </BaseHOne>
-        <BodyText>Once again, welcome to the tenant wizard family.</BodyText>
-        <BodyText>
+        <SubHeader>Once again, welcome to the tenant wizard family.</SubHeader>
+        <SubHeader>
           You will be redirected shortly, if nothing happened, click{' '}
           <RedirectLink href={REDIRECT_URL}>HERE</RedirectLink>
-        </BodyText>
+        </SubHeader>
       </Wrapper>
     </MainWrapper>
   );

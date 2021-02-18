@@ -58,7 +58,11 @@ const WizardSteps: React.FC<{ totalSteps: number; onWizardSubmit: () => void }> 
     // Render the stepper action buttons
     return (
       <ActionButtonWrapper isFirst={activeTab === 0}>
-        {activeTab !== 0 && <BaseButton onClick={handleOnPrevious}>Previous</BaseButton>}
+        {activeTab !== 0 && (
+          <BaseButton onClick={handleOnPrevious} outlined>
+            Previous
+          </BaseButton>
+        )}
         <BaseButton type={activeTab === totalSteps ? `submit` : `button`} onClick={onNext}>
           {activeTab === totalSteps ? `Submit` : `Next`}
         </BaseButton>

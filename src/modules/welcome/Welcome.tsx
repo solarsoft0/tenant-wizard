@@ -6,7 +6,17 @@ import { MainWrapper } from 'Layouts/DefaultLayout';
 import { BodyText, BaseHOne } from 'components/atoms';
 import { BaseButton } from 'components/atoms';
 
+import { ReactComponent as Logo } from 'assets/img/logo.svg';
+
 /* === Styled Components === */
+const LogoSVG = styled(Logo)`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 2rem;
+
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+`;
+
 const Wrapper = styled.div`
   @media (max-width: 37.5rem) {
     width: 90%;
@@ -41,6 +51,7 @@ export const WelcomePage: React.FC = () => {
   return (
     <MainWrapper>
       <Wrapper>
+        <LogoSVG />
         <BaseHOne>
           Unlock the doors of <TitleSpan>your new home</TitleSpan>
         </BaseHOne>

@@ -5,6 +5,7 @@ import { Input, BodyText } from 'components/atoms';
 import { useWizard } from 'components/wizard';
 import { useTenantContext } from '../tenantContext';
 import { inputFormData } from './personalPanel';
+import { salaryOtions } from './salaryPanel';
 import { FormWrapper, Title, OptionWrapper, RadioLabel } from './formPanels.styled';
 
 const ContentWrapper = styled.div`
@@ -54,7 +55,9 @@ export const ReviewPanel: React.FC = () => {
                 style={{ display: 'none' }}
                 readOnly
               />
-              <RadioLabel htmlFor="salary-review">{tenant.financialsInfo.salary}</RadioLabel>
+              <RadioLabel htmlFor="salary-review">
+                {salaryOtions[tenant.financialsInfo.salary]}
+              </RadioLabel>
             </OptionWrapper>
           )}
         </ContentWrapper>

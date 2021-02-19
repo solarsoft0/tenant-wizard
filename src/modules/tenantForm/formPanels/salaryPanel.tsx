@@ -6,25 +6,13 @@ import { useTenantContext } from 'modules/tenantForm/tenantContext';
 
 import { FormWrapper, Title, ContentWrapper, OptionWrapper, RadioLabel } from './formPanels.styled';
 
-// Define radio button options
-const radioOptions = [
-  {
-    label: '0 - 1000',
-    value: '0-1000',
-  },
-  {
-    label: '1000 - 2000',
-    value: '1000-2000',
-  },
-  {
-    label: '2000 - 3000',
-    value: '2000-3000',
-  },
-  {
-    label: '3000+',
-    value: '3000+',
-  },
-];
+// Define radio button mapper
+export const salaryOtions: { [key: string]: string } = {
+  '0-1000': '€0 - €1000',
+  '1000-2000': '€1000 - €2000',
+  '2000-3000': '€2000 - €3000',
+  '3000-plus': '€3000+',
+};
 
 export const SalaryPanel: React.FC = () => {
   // fetch from context
@@ -53,19 +41,19 @@ export const SalaryPanel: React.FC = () => {
   return (
     <>
       <FormWrapper>
-        <Title> Salary Indication </Title>
+        <Title> Salary Indication</Title>
         <ContentWrapper>
-          {radioOptions.map((option, idx) => (
-            <OptionWrapper key={`${idx}-radio-buttons`} isChecked={selectedOption === option.value}>
+          {Object.keys(salaryOtions).map((key, idx) => (
+            <OptionWrapper key={`${idx}-radio-buttons`} isChecked={selectedOption === key}>
               <input
-                id={option.value}
+                id={key}
                 type="radio"
-                value={option.value}
+                value={key}
                 name="salary"
                 onChange={onChangeValue}
                 style={{ display: 'none' }}
               />
-              <RadioLabel htmlFor={option.value}>{option.label}</RadioLabel>
+              <RadioLabel htmlFor={key}>{salaryOtions[key]}</RadioLabel>
             </OptionWrapper>
           ))}
         </ContentWrapper>

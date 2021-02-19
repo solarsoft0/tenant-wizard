@@ -102,6 +102,7 @@ export const ProgressBarStep = styled.div<{ isActive?: boolean }>`
 export const FormPanel = styled.div<{ isActive: boolean }>`
   min-height: 335px;
 
+  position: relative;
   padding: 1.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;

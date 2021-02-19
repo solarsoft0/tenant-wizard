@@ -15,6 +15,7 @@ const DualRingSpinner = styled.div`
   display: inline-block;
   width: 50px;
   height: 50px;
+
   :after {
     content: ' ';
     display: block;

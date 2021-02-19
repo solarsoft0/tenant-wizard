@@ -5,7 +5,7 @@ import { LoadingPanel } from 'components/atoms';
 import CustomProvider from 'assets/theme/CustomProvider';
 import RouteConfigComponent from './app.routes';
 import { ITenant, TenantActions } from 'modules/tenantForm/tenantTypes';
-import { TenantContext } from '../modules/tenantForm/tenantContext';
+import { TenantContext } from 'modules/tenantForm/tenantContext';
 
 // Handle the tenant registration state
 export const tenantReducer = (state: ITenant, action: TenantActions): ITenant => {

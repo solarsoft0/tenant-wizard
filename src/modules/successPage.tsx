@@ -57,7 +57,7 @@ export const SuccessPage: React.FC = () => {
   // Render success message
   return (
     <>
-      {shouldRedirect ? <Redirect to="/welcome" /> : null}
+      {shouldRedirect ? <Redirect to="/" /> : null}
       <MainWrapper>
         <Wrapper>
           <BaseHOne>

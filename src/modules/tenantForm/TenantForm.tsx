@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { MainWrapper } from 'Layouts/DefaultLayout';
 import { WizardSteps } from 'components/wizard';
 import { PersonalPanel, SalaryPanel, ReviewPanel } from './formPanels/index';
+import { LoadingPanel } from '../../components/atoms/loadingPanel';
 
 // Stepper information and step elements
 export const stepperData = [
@@ -32,13 +33,45 @@ const TenantFormWrapper = styled(MainWrapper)`
   margin: 5rem auto 2rem;
 `;
 
+/**
+ * @description Used for development puropses ONLY!
+ * @params time - timeout time in s
+ *
+ * @example simulateApi(300)
+ */
+export function simulateApi(time: number) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+}
+
 export const TenantForm: React.FC = () => {
   const history = useHistory();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const onFormSubmit = () => {
-    // send the timestamp (protected route)
-    history.push(`success`);
+    // Start the loader
+    setIsLoading(true);
+
+    // Simulate an API call for sending the tenant info
+    simulateApi(2000)
+      .then(() => {
+        // Route user on success
+        history.push(`success`);
+      })
+      .catch((error) => {
+        // Render Toast for error
+        console.log(error);
+      })
+      .finally(() => {
+        // stop the loader
+        setIsLoading(false);
+      });
   };
+
+  if (isLoading) return <LoadingPanel />;
 
   return (
     <TenantFormWrapper>

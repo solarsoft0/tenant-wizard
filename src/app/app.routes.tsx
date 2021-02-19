@@ -37,7 +37,7 @@ export default function RouteConfigComponent() {
       {routes.map((route, i) => (
         <RouteWithSubRoutes key={i} {...route} />
       ))}
-      <Redirect to="/welcome" />
+      <Redirect to="/" />
     </Switch>
   );
 }

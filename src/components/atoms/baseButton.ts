@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 // TODO: Add outlined button feature
 export const BaseButton = styled.button<{ outlined?: boolean }>`
   position: relative;

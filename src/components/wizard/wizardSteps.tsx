@@ -23,7 +23,7 @@ interface IWizardComposition {
   Form: React.FC<unknown>;
 }
 
-const TabsContext = React.createContext<IWizardContext | undefined>(undefined);
+const WizardContext = React.createContext<IWizardContext | undefined>(undefined);
 
 /**
  * This component maintains internal state and provides those
@@ -87,7 +87,7 @@ const WizardSteps: React.FC<{ totalSteps: number; onWizardSubmit: () => void }> 
   );
 
   // Provide wizard context
-  return <TabsContext.Provider value={memoizedContextValue}>{children}</TabsContext.Provider>;
+  return <WizardContext.Provider value={memoizedContextValue}>{children}</WizardContext.Provider>;
 };
 
 /**
@@ -95,7 +95,7 @@ const WizardSteps: React.FC<{ totalSteps: number; onWizardSubmit: () => void }> 
  * into the Wizard context and get the data it needs
  */
 export const useWizard = (): IWizardContext => {
-  const context = React.useContext(TabsContext);
+  const context = React.useContext(WizardContext);
 
   // Makes sure the component is used within a WizardSteps component
   if (!context) {
